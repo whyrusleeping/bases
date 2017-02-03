@@ -26,6 +26,18 @@ func (r *hexReader) Read(b []byte) (int, error) {
 	return hex.Decode(b, buf)
 }
 
+type hexWriter struct {
+	dst io.Writer
+}
+
+func (w *hexWriter) Write(b []byte) (int, error) {
+	return w.dst.Write([]byte(hex.EncodeToString(b)))
+}
+
+func (w *hexWriter) Close() error {
+	return nil
+}
+
 type b58Reader struct {
 	src io.Reader
 }
@@ -84,7 +96,7 @@ func main() {
 	case "b64", "base64":
 		w = base64.NewEncoder(base64.RawStdEncoding, os.Stdout)
 	case "hex", "b16":
-		w = hex.Dumper(os.Stdout)
+		w = &hexWriter{os.Stdout}
 	case "b32", "base32":
 		w = base32.NewEncoder(base32.RawStdEncoding, os.Stdout)
 	case "b58", "base58":
