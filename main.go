@@ -31,7 +31,11 @@ type hexWriter struct {
 }
 
 func (w *hexWriter) Write(b []byte) (int, error) {
-	return w.dst.Write([]byte(hex.EncodeToString(b)))
+	if len(b) == 0 {
+		return 0, nil
+	}
+	w.dst.Write([]byte(hex.EncodeToString(b)))
+	return len(b), nil
 }
 
 func (w *hexWriter) Close() error {
