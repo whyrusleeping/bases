@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bytes"
 	"fmt"
 	"io"
 	"os"
@@ -23,7 +24,9 @@ func (r *hexReader) Read(b []byte) (int, error) {
 	}
 
 	buf = buf[:n]
-	return hex.Decode(b, buf)
+	out1 := bytes.TrimSpace(buf)
+	out2 := bytes.Replace(out1, []byte{' '}, nil, -1)
+	return hex.Decode(b, out2)
 }
 
 type hexWriter struct {
