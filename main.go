@@ -24,6 +24,9 @@ func (r *hexReader) Read(b []byte) (int, error) {
 	}
 
 	buf = buf[:n]
+	if len(buf) > 2 && bytes.Equal([]byte{'0', 'x'}, buf[:2]) {
+		buf = buf[2:]
+	}
 	out1 := bytes.TrimSpace(buf)
 	out2 := bytes.Replace(out1, []byte{' '}, nil, -1)
 	return hex.Decode(b, out2)

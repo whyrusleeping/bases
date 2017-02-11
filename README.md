@@ -8,7 +8,9 @@ go get github.com/whyrusleeping/bases
 
 ## Usage
 ```
-printf "ff2c3ed5" | bases hex base64
+$ printf hello | bases bin hex
+68656c6c6f
+$ printf "ff2c3ed5" | bases hex base64
 /yw+3w
 ```
 
