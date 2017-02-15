@@ -75,7 +75,12 @@ type b58Writer struct {
 func (w *b58Writer) Close() error { return nil }
 func (w *b58Writer) Write(b []byte) (int, error) {
 	encoded := base58.Encode(b)
-	return w.w.Write([]byte(encoded))
+	_, err := w.w.Write([]byte(encoded))
+	if err != nil {
+		return 0, err
+	}
+
+	return len(b), nil
 }
 
 func main() {
