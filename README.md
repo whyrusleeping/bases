@@ -22,6 +22,7 @@ Supported formats are currently:
 - base32
 - base58
 - bin 
+- mbase (multibase, input only)
 
 ## License
 MIT

@@ -4,12 +4,15 @@ import (
 	"bytes"
 	"fmt"
 	"io"
+	"io/ioutil"
 	"os"
 
 	"encoding/base64"
 	"encoding/hex"
 	"github.com/jbenet/go-base58"
 	"github.com/whyrusleeping/base32"
+
+	mbase "github.com/multiformats/go-multibase"
 )
 
 type hexReader struct {
@@ -101,6 +104,18 @@ func main() {
 		r = &b58Reader{os.Stdin}
 	case "raw", "bin":
 		r = os.Stdin
+	case "mbase":
+		data, err := ioutil.ReadAll(os.Stdin)
+		if err != nil {
+			fmt.Fprintln(os.Stderr, "reading data failed: ", err)
+			os.Exit(1)
+		}
+		_, out, err := mbase.Decode(string(bytes.TrimSpace(data)))
+		if err != nil {
+			fmt.Fprintln(os.Stderr, "decoding data failed: ", err)
+			os.Exit(1)
+		}
+		r = bytes.NewReader(out)
 	default:
 		fmt.Fprintln(os.Stderr, "unrecognized input encoding")
 		os.Exit(1)
