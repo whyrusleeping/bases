@@ -96,6 +96,8 @@ func main() {
 	switch os.Args[1] {
 	case "b64", "base64":
 		r = base64.NewDecoder(base64.RawStdEncoding, os.Stdin)
+	case "b64u", "base64url":
+		r = base64.NewDecoder(base64.RawURLEncoding, os.Stdin)
 	case "hex", "b16":
 		r = &hexReader{os.Stdin}
 	case "b32", "base32":
@@ -125,6 +127,8 @@ func main() {
 	switch os.Args[2] {
 	case "b64", "base64":
 		w = base64.NewEncoder(base64.RawStdEncoding, os.Stdout)
+	case "b64u", "base64url":
+		w = base64.NewEncoder(base64.RawURLEncoding, os.Stdout)
 	case "hex", "b16":
 		w = &hexWriter{os.Stdout}
 	case "b32", "base32":
